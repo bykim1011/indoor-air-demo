@@ -303,15 +303,19 @@ else:
     station = air_df["station"].dropna().iloc[0] if "station" in air_df.columns else "측정소명 없음"
 
     available_dates = sorted(air_df["datetime"].dt.date.unique())
-
-    selected_date = st.sidebar.selectbox(
+    
+    min_date = min(available_dates)
+    max_date = max(available_dates)
+    
+    selected_date = st.sidebar.date_input(
         "조회 날짜 선택",
-        available_dates,
-        index=0
+        value=min_date,
+        min_value=min_date,
+        max_value=max_date
     )
-
+    
     day_df = air_df[air_df["datetime"].dt.date == selected_date].copy()
-
+    
     if len(day_df) == 0:
         st.warning("선택한 날짜의 자료가 없습니다.")
         st.stop()
