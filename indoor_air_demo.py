@@ -263,11 +263,13 @@ with right_col:
     metric_col1, metric_col2 = st.columns(2)
 
     with metric_col1:
-        st.metric("PM2.5", f"{pm25:.1f} µg/m³", pm25_grade)
+        st.metric("PM2.5", f"{pm25:.1f} µg/m³")
+        st.markdown(f"**등급:** {pm25_grade}")
         st.metric("온도", f"{temp:.1f} ℃")
 
     with metric_col2:
-        st.metric("PM10", f"{pm10:.1f} µg/m³", pm10_grade)
+        st.metric("PM10", f"{pm10:.1f} µg/m³")
+        st.markdown(f"**등급:** {pm10_grade}")
         st.metric("습도", f"{humidity:.1f} %")
 
 
