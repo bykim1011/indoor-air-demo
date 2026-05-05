@@ -507,13 +507,27 @@ else:
 
     with sum_col2:
         st.write("최근 반응 기록")
+
+        # 기존 버전에서는 시간 컬럼명이 datetime이었고,
+        # 새 버전에서는 feedback_time_kst로 저장되므로 둘 다 대응
+        if "feedback_time_kst" in feedback_df.columns:
+            sort_col = "feedback_time_kst"
+        elif "datetime" in feedback_df.columns:
+            sort_col = "datetime"
+        else:
+            sort_col = None
+
+        if sort_col is not None:
+            recent_df = feedback_df.tail(10).sort_values(sort_col, ascending=False)
+        else:
+            recent_df = feedback_df.tail(10)
+
         st.dataframe(
-            feedback_df.tail(10).sort_values("feedback_time_kst", ascending=False),
+            recent_df,
             use_container_width=True,
             hide_index=True
         )
-
-
+        
 # ============================================================
 # 16. 안내 문구
 # ============================================================
