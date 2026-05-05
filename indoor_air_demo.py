@@ -22,13 +22,18 @@ This is a temporary script file.
 
 import streamlit as st
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 
 # ============================================================
 # 1. 기본 설정
 # ============================================================
+
+KST = timezone(timedelta(hours=9))
+
+def get_kst_now():
+    return datetime.now(KST).strftime("%Y-%m-%d %H:%M:%S")
 
 st.set_page_config(
     page_title="실내공기질 안내서비스 데모",
@@ -143,8 +148,8 @@ def save_feedback(feedback, pm25, pm10, temp, humidity, final_grade):
     """
     이용자 반응을 CSV 파일에 누적 저장
     """
-    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
+    now = get_kst_now()
+    
     new_row = pd.DataFrame([{
         "datetime": now,
         "feedback": feedback,
@@ -183,7 +188,7 @@ def load_feedback_summary():
 
 st.title("🌿 실내공기질 안내서비스 데모")
 st.caption("미세먼지 간이측정기 자료를 활용한 실내공기질 안내 화면 예시")
-
+st.caption(f"현재 표시 시간: {get_kst_now()} KST")
 st.markdown("---")
 
 
